@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>API JSON Example</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>ข้อมูลจาก API</h1>
+  <table id="api-table">
+    <thead>
+      <tr id="table-header"></tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <script>
+    const apiURL = 'https://it.nkh.go.th/qdsm/ajax/export_document_api.php?type=json';
+
+    fetch(apiURL)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length === 0) return;
+
+        // สร้าง header table จาก key ของ object
+        const headerRow = document.getElementById('table-header');
+        Object.keys(data[0]).forEach(key => {
+          const th = document.createElement('th');
+          th.textContent = key;
+          headerRow.appendChild(th);
+        });
+
+        // สร้าง body table
+        const tbody = document.getElementById('table-body');
+        data.forEach(item => {
+          const tr = document.createElement('tr');
+          Object.values(item).forEach(val => {
+            const td = document.createElement('td');
+            td.textContent = val;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching API:', err);
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '<tr><td colspan="100%">ไม่สามารถดึงข้อมูลได้</td></tr>';
+      });
+  </script>
+</body>
+</html>
