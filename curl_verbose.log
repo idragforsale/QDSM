@@ -1,0 +1,53 @@
+* Host moph.id.th:443 was resolved.
+* IPv6: (none)
+* IPv4: 203.151.254.62
+*   Trying 203.151.254.62:443...
+* Connected to moph.id.th (203.151.254.62) port 443
+* ALPN: curl offers h2,http/1.1
+*  CAfile: C:/inetpub/wwwroot/certs/cacert.pem
+*  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=*.id.th
+*  start date: Aug  1 02:58:13 2025 GMT
+*  expire date: Sep  2 02:58:12 2026 GMT
+*  subjectAltName: host "moph.id.th" matched cert's "*.id.th"
+*  issuer: C=BE; O=GlobalSign nv-sa; CN=GlobalSign GCC R6 AlphaSSL CA 2025
+*  SSL certificate verify ok.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (4096/152 Bits/secBits), signed using sha384WithRSAEncryption
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://moph.id.th/api/v1/token
+* [HTTP/2] [1] [:method: POST]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: moph.id.th]
+* [HTTP/2] [1] [:path: /api/v1/token]
+* [HTTP/2] [1] [user-agent: Mozilla/5.0 (compatible; PHP script)]
+* [HTTP/2] [1] [accept: */*]
+* [HTTP/2] [1] [content-type: application/x-www-form-urlencoded]
+* [HTTP/2] [1] [content-length: 1219]
+> POST /api/v1/token HTTP/2
+Host: moph.id.th
+User-Agent: Mozilla/5.0 (compatible; PHP script)
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 1219
+
+* upload completely sent off: 1219 bytes
+< HTTP/2 200 
+< server: nginx
+< date: Sat, 11 Oct 2025 09:15:59 GMT
+< content-type: application/json
+< cache-control: private, must-revalidate
+< pragma: no-cache
+< expires: -1
+< set-cookie: moph_id_session=qtExyu1wsXkBd5hu6cPjuUO7jE26d9QEKIK7WF7j; expires=Sat, 11-Oct-2025 11:15:59 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+< x-frame-options: SAMEORIGIN
+< x-xss-protection: 1; mode=block
+< x-content-type-options: nosniff
+< strict-transport-security: max-age=63072000
+< x-frame-options: DENY
+< 
+* Connection #0 to host moph.id.th left intact

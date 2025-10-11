@@ -1,0 +1,9 @@
+/vendor/
+/node_modules/
+/.env
+config.php
+database/*.sql
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
