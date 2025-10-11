@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>Preview API QDSM</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QDSM Preview</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #f2f2f2; }
-  </style>
+</style>
 </head>
 <body>
-  <h1>ข้อมูลจาก QDSM API</h1>
-  <table id="api-table">
+<h1>QDSM API Preview</h1>
+<table id="dataTable">
     <thead>
-      <tr id="table-header"></tr>
+        <tr id="tableHeader"></tr>
     </thead>
-    <tbody id="table-body">
-      <tr><td colspan="100%">กำลังโหลดข้อมูล...</td></tr>
-    </tbody>
-  </table>
+    <tbody id="tableBody"></tbody>
+</table>
 
-  <script>
-    // ใช้ CORS proxy ชั่วคราว
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
-    const apiURL = 'https://it.nkh.go.th/qdsm/ajax/export_document_api.php?type=json';
+<script>
+const apiURL = 'https://it.nkh.go.th/qdsm/ajax/export_document_api.php?type=json';
 
-    fetch(proxy + apiURL)
-      .then(response => response.json())
-      .then(data => {
-        const headerRow = document.getElementById('table-header');
-        const tbody = document.getElementById('table-body');
-        tbody.innerHTML = ''; // เคลียร์ข้อความ "กำลังโหลด"
+// ใช้ CORS proxy สำหรับเรียก API ข้าม domain
+const proxy = 'https://api.allorigins.win/get?url=';
 
-        if (!Array.isArray(data) || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="100%">ไม่มีข้อมูล</td></tr>';
-          return;
+fetch(proxy + encodeURIComponent(apiURL))
+    .then(response => response.json())
+    .then(data => {
+        // data.contents คือ JSON แบบ string
+        const jsonData = JSON.parse(data.contents);
+
+        if (jsonData.length === 0) {
+            document.getElementById('tableBody').innerHTML = '<tr><td colspan="10">ไม่มีข้อมูล</td></tr>';
+            return;
         }
 
-        // สร้าง header table
-        Object.keys(data[0]).forEach(key => {
-          const th = document.createElement('th');
-          th.textContent = key;
-          headerRow.appendChild(th);
+        // สร้าง header table จาก key ของ object แรก
+        const headers = Object.keys(jsonData[0]);
+        const headerRow = document.getElementById('tableHeader');
+        headers.forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            headerRow.appendChild(th);
         });
 
-        // สร้าง body table
-        data.forEach(item => {
-          const tr = document.createElement('tr');
-          Object.values(item).forEach(val => {
-            const td = document.createElement('td');
-            td.textContent = val;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
+        // สร้าง row table
+        const tbody = document.getElementById('tableBody');
+        jsonData.forEach(item => {
+            const tr = document.createElement('tr');
+            headers.forEach(h => {
+                const td = document.createElement('td');
+                td.textContent = item[h];
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
         });
-      })
-      .catch(err => {
-        console.error('Error fetching API:', err);
-        const tbody = document.getElementById('table-body');
-        tbody.innerHTML = '<tr><td colspan="100%">ไม่สามารถดึงข้อมูลได้</td></tr>';
-      });
-  </script>
+    })
+    .catch(err => {
+        console.log('ไม่สามารถดึงข้อมูลได้', err);
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="10">ไม่สามารถดึงข้อมูลได้</td></tr>';
+    });
+</script>
 </body>
 </html>
